@@ -26,7 +26,7 @@
        (unsaved-warning lisp-file))
       (force-write
        (write-it lisp-file web-file))
-      ((not (uiop/filesystem:file-exists-p web-file)) ; need to import this fn
+      ((not (uiop/filesystem:file-exists-p web-file))
        (write-it lisp-file web-file))
       ((> (file-write-date lisp-file) (file-write-date web-file))
        (write-it lisp-file web-file)))))
