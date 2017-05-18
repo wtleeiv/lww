@@ -37,7 +37,9 @@
           (write-web lisp-file web-file rewrite)))))
 
 (defun write-files (dir force)
-  ;; TODO load 'common.lisp' here if exists (using dir)
+  (let ((load-file (uiop/pathname:merge-pathnames* (pathname dir) (make-pathname :name "common" :type "lisp"))))
+    (when (uiop/filesystem:file-exists-p load-file)
+      (load load-file)))
   (mapcar (lambda (x) (write-file x force)) (uiop/filesystem:directory-files dir "*.lisp"))
   (mapcar (lambda (x) (write-files x force)) (uiop/filesystem:subdirectories dir)))
 
