@@ -12,17 +12,16 @@
     (format t "** ~a is unsaved~%" dotfile)
     (lex:echo-line "** consider saving it and writing web files again")))
 
-(defmacro write-page (page-name)
-  `(with-open-file (file ,page-name :direction :output :if-exists :supersede)
-     (let ((*stream* file))
-       (make-page))))
+(defmacro write-page (lisp-file page-name)
+  `(with-open-file (web-stream ,page-name :direction :output :if-exists :supersede)
+     (let ((*stream* web-stream))
+       (load lisp-file))))
 
 (defun write-web (lisp-file web-file force-write)
   (flet ((write-it (lisp web)
            (format t "lisp: ~a~%" lisp)
            (format t "web: ~a~%~%" web)
-           (load lisp)
-           (write-page web)))
+           (write-page lisp web)))
     (cond
       ((lex:dotfile-p lisp-file)
        (unsaved-warning lisp-file))
@@ -40,6 +39,7 @@
           (write-web lisp-file web-file rewrite)))))
 
 (defun write-files (dir force)
+  ;; TODO load 'common.lisp' here if exists (using dir)
   (mapcar (lambda (x) (write-file x force)) (uiop/filesystem:directory-files dir "*.lisp"))
   (mapcar (lambda (x) (write-files x force)) (uiop/filesystem:subdirectories dir)))
 
