@@ -2,7 +2,8 @@
 
 (defpackage #:lww
   (:use #:cl)
-  (:export #:write-app
+  (:export #:*stream*
+           #:write-app
            #:make-page)
   ;; (:import-from #:uiop/filesystem
   ;;               #:directory-files

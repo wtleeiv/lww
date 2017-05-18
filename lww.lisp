@@ -2,6 +2,8 @@
 
 (in-package #:lww)
 
+(defparameter *stream* soc:*soc*) ; default write stream
+
 (defvar *file-write-regex* "(.+)_(\\w{2,4})\\.lisp")
 (defvar *directory-end-slash-regex* "(.*)(\\w+)$")
 
@@ -12,7 +14,7 @@
 
 (defmacro write-page (page-name)
   `(with-open-file (file ,page-name :direction :output :if-exists :supersede)
-     (let ((spinneret:*html* file))
+     (let ((*stream* file))
        (make-page))))
 
 (defun write-web (lisp-file web-file force-write)
