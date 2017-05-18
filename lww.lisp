@@ -2,8 +2,6 @@
 
 (in-package #:lww)
 
-(defparameter *stream* soc:*soc*) ; default write stream
-
 (defvar *file-write-regex* "(.+)_(\\w{2,4})\\.lisp")
 (defvar *directory-end-slash-regex* "(.*)(\\w+)$")
 
@@ -12,9 +10,9 @@
     (format t "** ~a is unsaved~%" dotfile)
     (lex:echo-line "** consider saving it and writing web files again")))
 
-(defmacro write-page (lisp-file page-name)
-  `(with-open-file (web-stream ,page-name :direction :output :if-exists :supersede)
-     (let ((*stream* web-stream))
+(defun write-page (lisp-file page-name)
+  (with-open-file (web-stream page-name :direction :output :if-exists :supersede)
+    (let ((soc:*soc* web-stream))
        (load lisp-file))))
 
 (defun write-web (lisp-file web-file force-write)
@@ -45,6 +43,6 @@
 
 ;; run this
 (defun write-app (dir &optional (force nil))
-  (flet ((vet-dir (dir-path)
+  (flet ((vet-dir ()
            (cl-ppcre:regex-replace *directory-end-slash-regex* dir "\\1\\2\/")))
-    (write-files (vet-dir dir) force)))
+    (write-files (vet-dir) force)))
