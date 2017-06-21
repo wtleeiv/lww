@@ -8,7 +8,7 @@ html, css, javascript file writing utility for common lisp
 ## How to Use
 * lww recursively searches within your projects root directory for files named like: filename_{html,css,js}.lisp and writes out the associated web file
 * example: index_html.lisp -> index.html
-* more specifically, it sets the stream soc:*soc* to the matching web filename, then loads the lisp file
+* more specifically, it sets the stream `soc:*soc*` to the matching web filename, then loads the lisp file
 * its up to you to write code that makes use of this filestream
   * soc example: `(soc:soc <body of file>)`
   * parenscript example: `(ps:ps-to-stream soc:*soc* <body of file>)`
