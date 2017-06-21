@@ -12,7 +12,5 @@ more specifically, it sets the stream soc:*soc* to the matching web filename, th
 its up to you to write code that makes use of this filestream
 * soc ex. `(soc:soc <body of file>)`
 * parenscript ex. `(ps:ps-to-stream soc:*soc* <body of file>)`
-calling this will write all web files whose lisp files have changed (more recent timestamps)
-* `(lww:write-app "/path/to/project")`
-calling this forces lww to overwrite all matching lisp -> web file pairs
-* `(lww:write-app "/path/to/project" 't')`
+* `(lww:write-app "/path/to/project")` write all web files whose lisp files have changed (more recent timestamps)
+* `(lww:write-app "/path/to/project" 't)` force lww to overwrite all matching lisp -> web file pairs
