@@ -5,10 +5,15 @@
 (defvar *file-write-regex* "(.+)_(\\w{2,4})\\.lisp")
 (defvar *directory-end-slash-regex* "(.*)(\\w+)$")
 
+(defun dotfile-p (file)
+  (let* ((filename (file-namestring file))
+         (first-char (char filename 0)))
+    (char= #\. first-char)))
+
 (defun unsaved-warning (dotfile)
   (when (cl-ppcre:scan *file-write-regex* (namestring dotfile))
     (format t "** ~a is unsaved~%" dotfile)
-    (lex:echo-line "** consider saving it and writing web files again")))
+    (format t "** consider saving it and writing web files again~%")))
 
 (defun write-page (lisp-file page-name)
   (with-open-file (web-stream page-name :direction :output :if-exists :supersede)
@@ -21,7 +26,7 @@
            (format t "web: ~a~%~%" web)
            (write-page lisp web)))
     (cond
-      ((lex:dotfile-p lisp-file)
+      ((dotfile-p lisp-file)
        (unsaved-warning lisp-file))
       (force-write
        (write-it lisp-file web-file))
