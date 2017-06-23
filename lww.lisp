@@ -54,7 +54,6 @@
 
 (defun write-files (dir force)
   (unless (dotdir-p dir)
-    (break)
     (let ((load-file (uiop/pathname:merge-pathnames* (pathname dir) (make-pathname :name "common" :type "lisp"))))
       (when (uiop/filesystem:file-exists-p load-file)
         (load load-file)))
