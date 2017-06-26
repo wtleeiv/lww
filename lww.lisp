@@ -28,7 +28,7 @@
 
 (defun write-page (lisp-file page-name)
   (with-open-file (web-stream page-name :direction :output :if-exists :supersede)
-    (let ((soc:*soc* web-stream))
+    (let ((spinneret:*html* web-stream))
       (load lisp-file))))
 
 (defun write-web (lisp-file web-file force-write)

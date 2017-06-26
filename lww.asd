@@ -7,7 +7,7 @@
   :serial t
   :depends-on (#:uiop
                #:cl-ppcre
-               #:soc)
+               #:spinneret)
   :components ((:file "package")
                (:file "lww")))
 
